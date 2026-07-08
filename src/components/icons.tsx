@@ -142,6 +142,23 @@ export function ArrowLeftIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+export function ShareIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M12 15V4M12 4 8 8M12 4l4 4" />
+      <path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6" />
+    </svg>
+  )
+}
+
 export function ClockIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg

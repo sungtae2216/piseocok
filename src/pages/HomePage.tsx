@@ -15,7 +15,9 @@ import { PopularSpotList } from '@/components/PopularSpotList'
 import { FilterChips } from '@/components/FilterChips'
 import { FilteredSpotList } from '@/components/FilteredSpotList'
 import { HeroOceanBackground } from '@/components/HeroOceanBackground'
+import { ShareButton } from '@/components/ShareButton'
 import { ChevronRightIcon, LocateIcon } from '@/components/icons'
+import { SITE_URL } from '@/constants/site'
 
 const HOME_PREVIEW_LIMIT = 6
 const RANKING_PREVIEW_LIMIT = 3
@@ -49,7 +51,14 @@ export function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/10 to-white" />
 
         <div className="relative space-y-4 px-5 pt-[calc(env(safe-area-inset-top)+1.75rem)] pb-9">
-          <span className="text-xl font-bold text-sky-600">피서콕 🌊</span>
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-bold text-sky-600">피서콕 🌊</span>
+            <ShareButton
+              title="피서콕"
+              text="지금 가기 좋은 피서지를 한눈에 확인하세요"
+              url={SITE_URL}
+            />
+          </div>
 
           <div className="space-y-2">
             <h1 className="text-[32px] leading-[1.25] font-bold text-slate-900">

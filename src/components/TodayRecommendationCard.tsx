@@ -33,7 +33,7 @@ export function TodayRecommendationCard({
     appkey: KAKAO_MAP_KEY || 'missing-key',
     libraries: ['services'],
   })
-  const { data: amenities } = useNearbyAmenities(
+  const { data: amenities, isLoading: amenitiesLoading } = useNearbyAmenities(
     spot.coordinates,
     1000,
     Boolean(KAKAO_MAP_KEY) && !mapLoading,
@@ -114,7 +114,9 @@ export function TodayRecommendationCard({
             <p className="text-xs font-semibold text-slate-900">
               {nearestParking
                 ? formatDistanceMeters(nearestParking.distanceMeters)
-                : '확인 중'}
+                : amenitiesLoading
+                  ? '확인 중'
+                  : '정보 없음'}
             </p>
           </div>
           <div className="flex flex-col items-center gap-0.5 text-center">
@@ -125,7 +127,9 @@ export function TodayRecommendationCard({
             <p className="text-xs font-semibold text-slate-900">
               {nearestRestroom
                 ? formatDistanceMeters(nearestRestroom.distanceMeters)
-                : '확인 중'}
+                : amenitiesLoading
+                  ? '확인 중'
+                  : '정보 없음'}
             </p>
           </div>
         </div>

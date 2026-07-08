@@ -8,8 +8,10 @@ import { CongestionBadge } from '@/components/CongestionBadge'
 import { CongestionLegend } from '@/components/CongestionLegend'
 import { NearbyPlaceMarker } from '@/components/NearbyPlaceMarker'
 import { ArrowLeftIcon, HeartIcon, StarIcon } from '@/components/icons'
+import { ShareButton } from '@/components/ShareButton'
 import { SPOT_TYPE_LABEL } from '@/constants/spotTypes'
 import { KAKAO_MAP_KEY } from '@/constants/kakao'
+import { SITE_URL } from '@/constants/site'
 import {
   AMENITY_CATEGORIES,
   AMENITY_CATEGORY_META,
@@ -24,6 +26,7 @@ import {
 } from '@/utils/congestion'
 import { kakaoMapDirectionsUrl } from '@/utils/kakaoMapLink'
 import { naverSearchUrl } from '@/utils/naverSearchLink'
+import { spotDetailPath } from '@/constants/routes'
 
 const PLACES_PER_CATEGORY_ON_MAP = 5
 
@@ -116,16 +119,23 @@ export function SpotDetailPage() {
         >
           <ArrowLeftIcon className="h-5 w-5" />
         </button>
-        <button
-          type="button"
-          onClick={() => toggleFavorite(spot.id)}
-          aria-label={isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}
-          className="absolute top-[calc(env(safe-area-inset-top)+0.75rem)] right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-500 shadow-sm"
-        >
-          <HeartIcon
-            className={`h-5 w-5 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`}
+        <div className="absolute top-[calc(env(safe-area-inset-top)+0.75rem)] right-3 flex items-center gap-2">
+          <ShareButton
+            title={spot.name}
+            text={`${spot.name} - 피서콕에서 확인해보세요`}
+            url={`${SITE_URL}${spotDetailPath(spot.id)}`}
           />
-        </button>
+          <button
+            type="button"
+            onClick={() => toggleFavorite(spot.id)}
+            aria-label={isFavorite ? '즐겨찾기 해제' : '즐겨찾기 추가'}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-500 shadow-sm"
+          >
+            <HeartIcon
+              className={`h-5 w-5 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`}
+            />
+          </button>
+        </div>
       </div>
 
       <div className="space-y-5 px-4 pt-5">

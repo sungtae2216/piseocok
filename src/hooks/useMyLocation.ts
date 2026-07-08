@@ -23,6 +23,13 @@ export function useMyLocation(
       return
     }
 
+    if (!window.isSecureContext) {
+      setError(
+        '위치 정보는 HTTPS 주소에서만 사용할 수 있어요. localhost나 실제 배포 주소(https://piseocok.vercel.app)로 접속해주세요.',
+      )
+      return
+    }
+
     setIsLocating(true)
     setError(null)
 
@@ -37,8 +44,14 @@ export function useMyLocation(
         setIsLocating(false)
         onLocate?.(coordinates)
       },
-      () => {
-        setError('위치 정보를 가져오지 못했어요. 위치 권한을 확인해주세요.')
+      (err) => {
+        const message =
+          err.code === err.PERMISSION_DENIED
+            ? '위치 권한이 꺼져 있어요. 브라우저 설정에서 위치 권한을 허용해주세요.'
+            : err.code === err.TIMEOUT
+              ? '위치를 확인하는 데 시간이 너무 오래 걸렸어요. 다시 시도해주세요.'
+              : '위치 정보를 가져오지 못했어요. GPS나 네트워크 상태를 확인해주세요.'
+        setError(message)
         setIsLocating(false)
       },
       { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 },
