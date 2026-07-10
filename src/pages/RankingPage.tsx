@@ -1,12 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 import { CongestionRankingList } from '@/components/CongestionRankingList'
 import { ArrowLeftIcon } from '@/components/icons'
+import { Seo } from '@/components/Seo'
+import { ROUTES } from '@/constants/routes'
 
 export function RankingPage() {
   const navigate = useNavigate()
 
   return (
     <div className="space-y-4 px-5 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-8">
+      <Seo
+        title="피서지 혼잡도 순위 | 오늘 가장 붐비는 곳은 - 피서콕"
+        description="해수욕장·계곡의 예상 혼잡도를 여유부터 매우혼잡까지 순위로 확인하세요."
+        path={ROUTES.RANKING}
+      />
       <header className="flex items-center gap-2">
         <button
           type="button"

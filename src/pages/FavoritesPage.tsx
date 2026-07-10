@@ -2,6 +2,8 @@ import { useFavoriteStore } from '@/stores/useFavoriteStore'
 import { useFavoriteSpots } from '@/hooks/useSpots'
 import { SpotCard } from '@/components/SpotCard'
 import { HeartIcon } from '@/components/icons'
+import { Seo } from '@/components/Seo'
+import { ROUTES } from '@/constants/routes'
 
 export function FavoritesPage() {
   const favoriteIds = useFavoriteStore((state) => state.favoriteIds)
@@ -9,6 +11,12 @@ export function FavoritesPage() {
 
   return (
     <div className="space-y-4 px-5 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-8">
+      <Seo
+        title="즐겨찾기 | 피서콕"
+        description="저장한 피서지를 모아볼 수 있어요."
+        path={ROUTES.FAVORITES}
+        noindex
+      />
       <header>
         <h1 className="text-xl font-bold text-slate-900">즐겨찾기</h1>
         <p className="text-sm text-slate-500">

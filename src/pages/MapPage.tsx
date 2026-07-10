@@ -14,6 +14,8 @@ import { FilterChips } from '@/components/FilterChips'
 import { SPOT_TYPE_OPTIONS } from '@/constants/spotTypes'
 import { KAKAO_MAP_KEY } from '@/constants/kakao'
 import { LocateIcon, MapIcon } from '@/components/icons'
+import { Seo } from '@/components/Seo'
+import { ROUTES } from '@/constants/routes'
 
 const KOREA_CENTER: Coordinates = { lat: 36.4, lng: 127.9 }
 const KOREA_OVERVIEW_LEVEL = 13
@@ -100,6 +102,11 @@ export function MapPage() {
 
   return (
     <div className="relative h-[calc(100dvh-64px)]">
+      <Seo
+        title="피서지 지도 | 내 주변 해수욕장·계곡 찾기 - 피서콕"
+        description="카카오맵으로 내 주변 해수욕장·계곡 위치와 예상 혼잡도를 한눈에 확인하세요."
+        path={ROUTES.MAP}
+      />
       <div className="absolute top-[calc(env(safe-area-inset-top)+0.75rem)] right-3 left-3 z-10">
         <FilterChips
           options={SPOT_TYPE_OPTIONS}

@@ -4,6 +4,7 @@ import { useGeolocationPermission } from '@/hooks/useGeolocationPermission'
 import type { GeolocationPermissionState } from '@/hooks/useGeolocationPermission'
 import { useMyLocation } from '@/hooks/useMyLocation'
 import { LocateIcon, HeartIcon, UserIcon } from '@/components/icons'
+import { Seo } from '@/components/Seo'
 import { ROUTES } from '@/constants/routes'
 
 const PERMISSION_META: Record<
@@ -27,6 +28,12 @@ export function MyPage() {
 
   return (
     <div className="space-y-6 px-5 pt-[calc(env(safe-area-inset-top)+2rem)] pb-8">
+      <Seo
+        title="내 정보 | 피서콕"
+        description="위치 권한, 즐겨찾기, 앱 정보를 확인하세요."
+        path={ROUTES.MY_PAGE}
+        noindex
+      />
       <header className="flex items-center gap-3">
         <div className="flex h-14 w-14 items-center justify-center rounded-full bg-sky-50 text-sky-500">
           <UserIcon className="h-7 w-7" />

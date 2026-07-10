@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Circle, Map, MapMarker, useKakaoLoader } from 'react-kakao-maps-sdk'
 import { useSpot } from '@/hooks/useSpots'
 import { useNearbyAmenities } from '@/hooks/useNearbyAmenities'
@@ -9,6 +9,8 @@ import { CongestionLegend } from '@/components/CongestionLegend'
 import { NearbyPlaceMarker } from '@/components/NearbyPlaceMarker'
 import { ArrowLeftIcon, HeartIcon, StarIcon } from '@/components/icons'
 import { ShareButton } from '@/components/ShareButton'
+import { Seo } from '@/components/Seo'
+import { JsonLd } from '@/components/JsonLd'
 import { SPOT_TYPE_LABEL } from '@/constants/spotTypes'
 import { KAKAO_MAP_KEY } from '@/constants/kakao'
 import { SITE_URL } from '@/constants/site'
@@ -26,7 +28,16 @@ import {
 } from '@/utils/congestion'
 import { kakaoMapDirectionsUrl } from '@/utils/kakaoMapLink'
 import { naverSearchUrl } from '@/utils/naverSearchLink'
-import { spotDetailPath } from '@/constants/routes'
+import { ROUTES, spotDetailPath, spotsPath } from '@/constants/routes'
+import {
+  buildBreadcrumbJsonLd,
+  buildTouristAttractionJsonLd,
+} from '@/utils/schema'
+import {
+  CONGESTION_DISCLAIMER,
+  NO_VERIFIED_KID_PET_DATA_DISCLAIMER,
+  UPDATE_BASIS_DISCLAIMER,
+} from '@/content/disclaimers'
 
 const PLACES_PER_CATEGORY_ON_MAP = 5
 
@@ -102,9 +113,39 @@ export function SpotDetailPage() {
   const currentRadiusLabel =
     RADIUS_OPTIONS.find((option) => option.meters === searchRadius)?.label ??
     `${searchRadius}m`
+  const typeLabel = SPOT_TYPE_LABEL[spot.type]
+  const path = spotDetailPath(spot.id)
 
   return (
     <div className="min-h-dvh pb-8">
+      <Seo
+        title={`${spot.name} 혼잡도·주차·날씨 | 피서콕`}
+        description={`${spot.regionLabel} ${typeLabel} ${spot.name}의 예상 혼잡도, 주차, 화장실 정보를 확인하세요. ${spot.description}`}
+        path={path}
+        ogType="article"
+        ogImage={spot.imageUrl}
+      />
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: '홈', path: ROUTES.HOME },
+          {
+            name: typeLabel,
+            path: spotsPath({ type: spot.type }),
+          },
+          { name: spot.name, path },
+        ])}
+      />
+      <JsonLd
+        data={buildTouristAttractionJsonLd({
+          name: spot.name,
+          description: spot.description,
+          path,
+          imageUrl: spot.imageUrl,
+          address: spot.address,
+          lat: spot.coordinates.lat,
+          lng: spot.coordinates.lng,
+        })}
+      />
       <div className="relative">
         <img
           src={spot.imageUrl}
@@ -160,10 +201,7 @@ export function SpotDetailPage() {
             현재 기온 {spot.temperature}°C
           </span>
         </div>
-        <p className="text-xs text-slate-400">
-          예상 혼잡도는 평소 인기도와 현재 시간대를 기반으로 추정한 값이에요.
-          실시간 재실 인원 데이터는 아니에요.
-        </p>
+        <p className="text-xs text-slate-400">{CONGESTION_DISCLAIMER}</p>
 
         <p className="text-sm leading-relaxed text-slate-700">
           {spot.description}
@@ -192,6 +230,52 @@ export function SpotDetailPage() {
               </span>
             ))}
           </div>
+        </section>
+
+        <section className="space-y-3 rounded-2xl bg-slate-50 p-4">
+          <div>
+            <h2 className="text-sm font-semibold text-slate-900">
+              이 장소를 추천하는 이유
+            </h2>
+            <p className="mt-1 text-sm leading-relaxed text-slate-600">
+              {spot.description} 지금은 예상 혼잡도 {'\''}
+              {CONGESTION_META[congestionLevel].label}
+              {'\''} 수준으로 계산돼요.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-sm font-semibold text-slate-900">
+              추천 방문 시간
+            </h2>
+            <p className="mt-1 text-sm leading-relaxed text-slate-600">
+              이른 아침이나 늦은 오후, 평일이 대체로 한산한 편이에요. 시간대별
+              경향이 궁금하다면{' '}
+              <Link
+                to={ROUTES.GUIDE_BEST_TIME}
+                className="font-medium text-sky-600 underline underline-offset-2"
+              >
+                피서지 덜 붐비는 시간 가이드
+              </Link>
+              를 참고하세요.
+            </p>
+          </div>
+          <div>
+            <h2 className="text-sm font-semibold text-slate-900">
+              가족·아이·반려동물 동반
+            </h2>
+            <p className="mt-1 text-sm leading-relaxed text-slate-600">
+              {NO_VERIFIED_KID_PET_DATA_DISCLAIMER} 편의시설을 기준으로 고른
+              추천 목록은{' '}
+              <Link
+                to={ROUTES.FAMILY}
+                className="font-medium text-sky-600 underline underline-offset-2"
+              >
+                아이와 가기 좋은 피서지
+              </Link>
+              페이지에서 볼 수 있어요.
+            </p>
+          </div>
+          <p className="text-xs text-slate-400">{UPDATE_BASIS_DISCLAIMER}</p>
         </section>
 
         <a

@@ -6,6 +6,8 @@ import { SPOT_TYPE_OPTIONS } from '@/constants/spotTypes'
 import { FilterChips } from '@/components/FilterChips'
 import { FilteredSpotList } from '@/components/FilteredSpotList'
 import { ArrowLeftIcon } from '@/components/icons'
+import { Seo } from '@/components/Seo'
+import { ROUTES } from '@/constants/routes'
 
 const PAGE_SIZE = 20
 
@@ -22,6 +24,11 @@ export function SpotsPage() {
 
   return (
     <div className="space-y-4 px-5 pt-[calc(env(safe-area-inset-top)+2rem)] pb-8">
+      <Seo
+        title="전체 피서지 목록 | 해수욕장·계곡·하천·산 - 피서콕"
+        description="지역과 유형별로 필터링해 전국 해수욕장·계곡·하천·산 피서지를 한눈에 둘러보세요."
+        path={ROUTES.SPOTS}
+      />
       <header className="flex items-center gap-2">
         <button
           type="button"

@@ -6,6 +6,16 @@ export const ROUTES = {
   SPOT_DETAIL: '/spot/:id',
   SPOTS: '/spots',
   RANKING: '/ranking',
+  QUIET_BEACHES: '/quiet-beaches',
+  QUIET_VALLEYS: '/quiet-valleys',
+  NEAR_SEOUL: '/near-seoul',
+  FAMILY: '/family',
+  PARKING_EASY: '/parking-easy',
+  REGION_BUSAN: '/regions/busan',
+  REGION_GANGWON: '/regions/gangwon',
+  REGION_JEJU: '/regions/jeju',
+  GUIDE_BEST_TIME: '/guide/best-time',
+  GUIDE_CROWDING: '/guide/crowding',
 } as const
 
 export function spotDetailPath(id: string) {
